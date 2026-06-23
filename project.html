@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haven | Find Your Dream Home</title>
+    <meta name="description" content="Haven is a sophisticated real estate marketplace for buying, selling, and renting luxury properties.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+<link rel="stylesheet" href="project.css">
+<link rel="stylesheet" href="project.js">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+<meta name="robots" content="none,noarchive"/>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-inner">
+            <div class="logo" onclick="navigateTo('home')">
+                <div class="logo-icon">
+                    <i data-lucide="home"></i>
+                </div>
+                <span class="logo-text">Haven</span>
+            </div>
+
+            <nav class="nav">
+                <span class="nav-link" onclick="navigateTo('listings')">Buy</span>
+                <span class="nav-link" onclick="navigateTo('listings')">Rent</span>
+                <span class="nav-link" onclick="navigateTo('listings')">Sell</span>
+                <span class="nav-link" onclick="navigateTo('agent')">Agents</span>
+            </nav>
+
+            <div class="header-actions">
+                <button class="btn btn-ghost btn-icon" onclick="navigateTo('dashboard')" title="Dashboard">
+                    <i data-lucide="user"></i>
+                </button>
+                <button class="btn btn-ghost">Sign In</button>
+                <button class="btn btn-primary">List Property</button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu">
+            <span class="mobile-menu-link" onclick="navigateTo('listings'); toggleMobileMenu()">Buy</span>
+            <span class="mobile-menu-link" onclick="navigateTo('listings'); toggleMobileMenu()">Rent</span>
+            <span class="mobile-menu-link" onclick="navigateTo('listings'); toggleMobileMenu()">Sell</span>
+            <span class="mobile-menu-link" onclick="navigateTo('agent'); toggleMobileMenu()">Agents</span>
+            <span class="mobile-menu-link" onclick="navigateTo('dashboard'); toggleMobileMenu()">My Dashboard</span>
+            <div style="border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 0.5rem;">
+                <button class="btn btn-ghost" style="width: 100%; justify-content: flex-start;">Sign In</button>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">List Property</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div class="page active" id="page-home">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80" alt="Luxury modern home">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title animate-fade-in">Find Your Dream Home</h1>
+                <p class="hero-subtitle animate-fade-in" style="animation-delay: 0.1s">
+                    Discover exceptional properties in the most desirable neighborhoods. Your perfect home awaits.
+                </p>
+
+                <div class="search-card animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="search-tabs">
+                        <span class="search-tab active" data-tab="buy">Buy</span>
+                        <span class="search-tab" data-tab="rent">Rent</span>
+                        <span class="search-tab" data-tab="sold">Sold</span>
+                    </div>
+                    <form class="search-form" onsubmit="handleSearch(event)">
+                        <div class="search-input-wrapper">
+                            <i data-lucide="map-pin"></i>
+                            <input type="text" class="search-input" placeholder="City, neighborhood, or ZIP">
+                        </div>
+                        <div class="search-select">
+                            <span>Price Range</span>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="search-select">
+                            <span>Property Type</span>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <button type="submit" class="btn btn-hero search-btn">
+                            <i data-lucide="search"></i>
+                            <span>Search</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="hero-stats animate-fade-in" style="animation-delay: 0.4s">
+                    <div class="stat">
+                        <div class="stat-value">15K+</div>
+                        <div class="stat-label">Active Listings</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">50K+</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">200+</div>
+                        <div class="stat-label">Expert Agents</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- City Cards -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Explore Top Cities</h2>
+                    <p class="section-subtitle">Discover properties in India's most sought-after locations</p>
+                </div>
+
+                <div class="city-grid" id="city-grid"></div>
+            </div>
+        </section>
+
+        <!-- Just Listed -->
+        <section class="section section-muted">
+            <div class="container">
+                <div class="section-header-row">
+                    <div>
+                        <h2 class="section-title">Just Listed</h2>
+                        <p class="section-subtitle" style="margin: 0">Be the first to see the newest homes on the market</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="scroll-btns">
+                            <button class="btn btn-outline btn-icon" onclick="scrollProperties(-1)">
+                                <i data-lucide="chevron-left"></i>
+                            </button>
+                            <button class="btn btn-outline btn-icon" onclick="scrollProperties(1)">
+                                <i data-lucide="chevron-right"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-ghost" onclick="navigateTo('listings')">
+                            View All
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="properties-scroll" id="properties-scroll"></div>
+            </div>
+        </section>
+
+        <!-- Value Props -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Why Choose Haven</h2>
+                    <p class="section-subtitle">We're committed to making your real estate journey seamless and successful</p>
+                </div>
+
+                <div class="value-grid">
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i data-lucide="shield"></i>
+                        </div>
+                        <h3 class="value-title">Trusted & Verified</h3>
+                        <p class="value-desc">All listings are verified by our team to ensure accuracy and legitimacy.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h3 class="value-title">Expert Agents</h3>
+                        <p class="value-desc">Work with top-rated agents who know the local market inside and out.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i data-lucide="trending-up"></i>
+                        </div>
+                        <h3 class="value-title">Market Insights</h3>
+                        <p class="value-desc">Access real-time data and trends to make informed decisions.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i data-lucide="clock"></i>
+                        </div>
+                        <h3 class="value-title">24/7 Support</h3>
+                        <p class="value-desc">Our dedicated team is here to help you every step of the way.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-pattern"></div>
+            <div class="container cta-content">
+                <h2 class="cta-title">Ready to Find Your Perfect Home?</h2>
+                <p class="cta-text">
+                    Join thousands of satisfied clients who found their dream property with Haven. Our expert agents are ready to help you every step of the way.
+                </p>
+                <div class="cta-buttons">
+                    <button class="btn btn-hero-outline btn-xl" onclick="navigateTo('listings')">
+                        Browse Properties
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                    <button class="btn btn-white btn-xl">List Your Home</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <div class="logo" style="margin-bottom: 0">
+                            <div class="logo-icon">
+                                <i data-lucide="home"></i>
+                            </div>
+                            <span class="logo-text" style="color: var(--secondary-foreground)">Haven</span>
+                        </div>
+                        <p>Your trusted partner in finding the perfect home. We connect buyers, sellers, and renters with exceptional properties.</p>
+                        <div class="footer-contact">
+                            <a href="tel:1-800-HAVEN">
+                                <i data-lucide="phone"></i>
+                                <span>1-800-HAVEN</span>
+                            </a>
+                            <a href="mailto:hello@haven.com">
+                                <i data-lucide="mail"></i>
+                                <span>hello@haven.com</span>
+                            </a>
+                            <span style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.7)">
+                                <i data-lucide="map-pin"></i>
+                                <span>Bengaluru,India</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="footer-title">Resources</h4>
+                        <div class="footer-links">
+                            <a href="#">Real Estate News</a>
+                            <a href="#">Market Trends</a>
+                            <a href="#">Buying Guide</a>
+                            <a href="#">Selling Guide</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="footer-title">Company</h4>
+                        <div class="footer-links">
+                            <a href="#">About Us</a>
+                            <a href="#">Careers</a>
+                            <a href="#">Press</a>
+                            <a href="#">Contact</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="footer-title">Legal</h4>
+                        <div class="footer-links">
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Fair Housing</a>
+                            <a href="#">Accessibility</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <span>© 2024 Haven Real Estate. All rights reserved.</span>
+                    <span>Equal Housing Opportunity</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Listings Page -->
+    <div class="page" id="page-listings">
+        <div class="filter-bar">
+            <div class="container filter-bar-inner">
+                <button class="filter-btn" onclick="toggleFilter(this)">
+                    Price
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <button class="filter-btn" onclick="toggleFilter(this)">
+                    Beds
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <button class="filter-btn" onclick="toggleFilter(this)">
+                    Baths
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <button class="filter-btn" onclick="toggleFilter(this)">
+                    Home Type
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <button class="filter-btn">
+                    <i data-lucide="sliders-horizontal"></i>
+                    More Filters
+                </button>
+            </div>
+        </div>
+
+        <div class="listings-layout">
+            <div class="listings-grid-wrapper">
+                <div class="listings-header">
+                    <h1 class="listings-title">Properties for Sale</h1>
+                    <p class="listings-count"><span id="listings-count">6</span> homes available</p>
+                </div>
+                <div class="listings-grid" id="listings-grid"></div>
+            </div>
+
+            <div class="map-panel">
+                <div class="map-placeholder">
+                    <div class="map-icon">
+                        <i data-lucide="map-pin"></i>
+                    </div>
+                    <h3 class="map-title">Map View</h3>
+                    <p class="map-text">Interactive map showing properties in this area</p>
+                    <div class="map-pins">
+                        <span class="map-pin"><i data-lucide="map-pin"></i> New York</span>
+                        <span class="map-pin"><i data-lucide="map-pin"></i> Los Angeles</span>
+                        <span class="map-pin"><i data-lucide="map-pin"></i> Miami</span>
+                    </div>
+                </div>
+                <div class="map-marker" style="top: 25%; left: 25%"><span>3</span></div>
+                <div class="map-marker animate-pulse" style="top: 33%; right: 25%"><span>2</span></div>
+                <div class="map-marker" style="bottom: 33%; left: 33%"><span>1</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Detail Page -->
+    <div class="page" id="page-property">
+        <div class="container" style="background: var(--muted); padding-bottom: 4rem;">
+            <span class="detail-back" onclick="navigateTo('listings')">
+                <i data-lucide="arrow-left"></i>
+                Back to listings
+            </span>
+
+            <div class="gallery-grid" id="property-gallery"></div>
+
+            <div class="detail-layout">
+                <div class="detail-main" id="property-main"></div>
+                <div class="agent-card" id="agent-card"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Profile Page -->
+    <div class="page" id="page-agent">
+        <div id="agent-profile-content"></div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div class="page" id="page-dashboard">
+        <div class="dashboard-page">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Your Dashboard</h1>
+                    <p class="dashboard-subtitle">Manage your saved homes, searches, and messages</p>
+                </div>
+
+                <div class="dashboard-tabs">
+                    <button class="dashboard-tab active" onclick="switchDashboardTab('saved', this)">
+                        <i data-lucide="heart"></i>
+                        Saved Homes
+                        <span class="tab-badge">4</span>
+                    </button>
+                    <button class="dashboard-tab" onclick="switchDashboardTab('searches', this)">
+                        <i data-lucide="search"></i>
+                        Saved Searches
+                        <span class="tab-badge">3</span>
+                    </button>
+                    <button class="dashboard-tab" onclick="switchDashboardTab('messages', this)">
+                        <i data-lucide="message-square"></i>
+                        Messages
+                        <span class="tab-badge">1</span>
+                    </button>
+                </div>
+
+                <div class="dashboard-content" id="dashboard-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="gallery-modal">
+        <button class="gallery-modal-close" onclick="closeGalleryModal()">
+            <i data-lucide="x"></i>
+        </button>
+        <button class="gallery-modal-nav prev" onclick="changeModalImage(-1)">
+            <i data-lucide="chevron-left"></i>
+        </button>
+        <img id="gallery-modal-img" src="" alt="Property">
+        <button class="gallery-modal-nav next" onclick="changeModalImage(1)">
+            <i data-lucide="chevron-right"></i>
+        </button>
+        <div class="gallery-modal-dots" id="gallery-modal-dots"></div>
+    </div>
+     <h1 style="font-family:Roboto; font-weight:bold; text-decoration:underline; background-color:rgb(137, 122, 122); color:rgb(47, 40, 186); text-align:center;">Done by Divya</h1>
+    <script src="project.js"></script>
+</body>
+</html>
